@@ -10,8 +10,16 @@ pipeline {
         stage('Load Test') {
             steps {
                 checkout scm
-                sh '/home/node/artillery/bin/artillery run tests/performance/socket-io.yml'
+                sh 'mkdir reports'
+                sh '/home/node/artillery/bin/artillery run --output reports/report.json tests/performance/socket-io.yml'
+                sh '/home/node/artillery/bin/artillery report --output reports/report.html reports/report.json'
             }
+        }
+    }
+
+    post {
+        success {
+            archiveArtifacts 'reports/*'
         }
     }
 }
