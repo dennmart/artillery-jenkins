@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Set up Artillery Pro') {
             steps {
-                sh 'npm install artillery-pro@latest'
+                sh 'npm install -g artillery-pro@latest'
             }
         }
         stage('Load Test on AWS') {
