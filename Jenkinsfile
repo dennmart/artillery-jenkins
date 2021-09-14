@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'artilleryio/artillery:latest'
-            args '-i --entrypoint='
+            args '-u root:root -i --entrypoint='
         }
     }
 
@@ -10,7 +10,7 @@ pipeline {
         stage('Load Test') {
             steps {
                 checkout scm
-                sh '/home/node/artillery/bin/artillery'
+                sh '/home/node/artillery/bin/artillery run tests/performance/socket-io.yml'
             }
         }
     }
