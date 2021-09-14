@@ -6,19 +6,21 @@ pipeline {
         }
     }
 
-    stages {
-        stage('Load Test') {
-            steps {
-                sh 'mkdir reports'
-                sh '/home/node/artillery/bin/artillery run --output reports/report.json tests/performance/socket-io.yml'
-                sh '/home/node/artillery/bin/artillery report --output reports/report.html reports/report.json'
-            }
-        }
+    triggers {
+        cron('0 0 * * *')
     }
 
-    post {
-        success {
-            archiveArtifacts 'reports/*'
+    stages {
+        stage('Set up Artillery Pro') {
+            steps {
+                sh 'npm install artillery-pro@latest'
+            }
+        }
+        stage('Load Test on AWS') {
+            steps {
+                sh '/home/node/artillery/bin/artillery version'
+                // sh '/home/node/artillery/bin/artillery run-test --cluster artillery-pro-cluster --region us-east-1 --count 5'
+            }
         }
     }
 }
