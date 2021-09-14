@@ -10,7 +10,7 @@ pipeline {
         stage('Load Test') {
             steps {
                 checkout scm
-                sh '/home/node/artillery/bin/artillery run tests/performance/socket-io.yml'
+                sh '/home/node/artillery/bin/artillery'
             }
         }
     }
