@@ -10,6 +10,11 @@ pipeline {
         cron('0 0 * * *')
     }
 
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('jenkins-aws-secret-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+    }
+
     stages {
         stage('Set up Artillery Pro') {
             steps {
@@ -18,7 +23,7 @@ pipeline {
         }
         stage('Load Test on AWS') {
             steps {
-                sh '/home/node/artillery/bin/artillery version'
+                sh 'printenv'
                 // sh '/home/node/artillery/bin/artillery run-test --cluster artillery-pro-cluster --region us-east-1 --count 5'
             }
         }
